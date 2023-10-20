@@ -57,6 +57,12 @@ class GameState:
 
         return GameState(self.__add_cell_to_random_empty(self.__columns_to_cells(columns)), self.score)
     
+    def is_game_over(self) -> bool:
+        return not any([self.up().cells == self.cells,
+                        self.down().cells == self.cells,
+                        self.left().cells == self.cells,
+                        self.right().cells == self.cells])
+    
     def pretty_print(self) -> None:
         for i in range(4):
             print(*self.cells[i*4:i*4+4], sep='\t')
@@ -93,3 +99,7 @@ if __name__ == '__main__':
         elif move == 'd': game = game.right()
         else: break
         game.pretty_print()
+
+        if game.is_game_over():
+            print('Game over!')
+            break
