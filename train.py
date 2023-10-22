@@ -27,7 +27,7 @@ class DQNAgent:
         self.gamma = 0.99 # discount factor
         self.batch_size = 64
 
-    def select_action(self, state, epsilon):
+    def select_action(self, state, epsilon = 0):
         if random.random() < epsilon: return random.randrange(4)
         else:
             with torch.no_grad():
