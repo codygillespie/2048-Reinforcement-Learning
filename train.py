@@ -75,7 +75,7 @@ def train() -> DQNAgent:
             action = agent.select_action(state, epsilon)
             next_state = { 0: game.up(), 1: game.down(), 2: game.left(), 3: game.right() }[action]
             reward = next_state.score - game.score
-            done = next_state.is_game_over()
+            done = not next_state.is_game_over()
             next_state = torch.tensor(next_state.cells, dtype=torch.float32).unsqueeze(0).to(DEVICE)
             reward = torch.tensor([reward], dtype=torch.float32).to(DEVICE)
             done = torch.tensor([done], dtype=torch.uint8).to(DEVICE)

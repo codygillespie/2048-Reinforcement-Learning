@@ -4,6 +4,7 @@ from train import DEVICE, train
 
 def main():
     agent = train()
+    print('Training complete!')
 
     game = GameState.new()
     game.pretty_print()
@@ -13,6 +14,10 @@ def main():
         game = { 0: game.up(), 1: game.down(), 2: game.left(), 3: game.right() }[action]
         game.pretty_print()
         input()
+
+        if game.is_game_over():
+            print('Game over!')
+            break
 
 
 if __name__ == '__main__':

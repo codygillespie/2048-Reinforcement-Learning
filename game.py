@@ -57,11 +57,7 @@ class GameState:
 
         return GameState(self.__add_cell_to_random_empty(self.__columns_to_cells(columns)), self.score)
     
-    def is_game_over(self) -> bool:
-        return not any([self.up().cells == self.cells,
-                        self.down().cells == self.cells,
-                        self.left().cells == self.cells,
-                        self.right().cells == self.cells])
+    def is_game_over(self) -> bool: return all([self.up().cells == self.cells, self.down().cells == self.cells, self.left().cells == self.cells, self.right().cells == self.cells])
     
     def pretty_print(self) -> None:
         for i in range(4):
@@ -74,16 +70,18 @@ class GameState:
     def __columns_to_cells(self, columns: list[list[int]]) -> list[int]: return [column[i] for i in range(4) for column in columns]
     def __add_cell_to_random_empty(self, cells: list[int]) -> list[int]:
         empty_cells = [i for i in range(16) if cells[i] == 0]
+        if len(empty_cells) == 0: return cells
         cells[random.choice(empty_cells)] = random.choice([2, 4])
         return cells
 
     def __merge(self, v_1: list[int], v_2: list[int]) -> tuple[list[int], list[int], int]:
+        # TODO: this isn't scoring correctly
         v_1, v_2 = v_1.copy(), v_2.copy()
         for i in range(len(v_1)):
             if v_1[i] == v_2[i]:
+                self.score += v_1[i]
                 v_1[i] *= 2
                 v_2[i] = 0
-                self.score += v_1[i]
             if v_1[i] == 0 and v_2[i] != 0:
                 v_1[i], v_2[i] = v_2[i], 0
         return v_1, v_2, self.score
