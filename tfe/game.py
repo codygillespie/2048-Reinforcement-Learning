@@ -86,7 +86,7 @@ class GameState:
                 v_1[i], v_2[i] = v_2[i], 0
         return v_1, v_2, self.score
     
-if __name__ == '__main__':
+def do_game_loop():
     game = GameState.new()
     game.pretty_print()
     while True:
@@ -101,3 +101,6 @@ if __name__ == '__main__':
         if game.is_game_over():
             print('Game over!')
             break
+
+if __name__ == '__main__':
+    do_game_loop()
