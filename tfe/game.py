@@ -77,7 +77,7 @@ class GameState:
             f.write('\n'.join(lines))
 
     @staticmethod
-    def from_csv(self, filename: str) -> 'GameState':
+    def from_csv(filename: str) -> 'GameState':
         with open(filename, 'r') as f:
             lines = f.readlines()
             history = []
