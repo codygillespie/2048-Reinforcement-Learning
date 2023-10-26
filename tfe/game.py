@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 import random
 
+# TODO: Scoring is broken somewhere (increasing when a move that has no affect occurs). Fix it.
+
 @dataclass
 class GameState:
     cells: list[int]
