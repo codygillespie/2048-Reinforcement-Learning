@@ -3,8 +3,8 @@ from torch import optim, nn
 from collections import namedtuple, deque
 import random
 
-from deep import DQN
-from game import GameState
+from tfe.deep import DQN
+from tfe.game import GameState
 
 DEVICE: str = 'cuda' if torch.cuda.is_available() else 'cpu'
 

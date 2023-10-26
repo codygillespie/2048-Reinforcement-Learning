@@ -1,6 +1,6 @@
 import unittest
 
-from game import GameState
+from tfe.game import GameState
 
 
 class TestGameMove(unittest.TestCase):

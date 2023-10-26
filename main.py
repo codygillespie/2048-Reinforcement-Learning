@@ -1,6 +1,6 @@
 import torch
-from game import GameState
-from train import DEVICE, train
+from tfe.game import GameState
+from tfe.train import DEVICE, train
 
 def main():
     agent = train()
