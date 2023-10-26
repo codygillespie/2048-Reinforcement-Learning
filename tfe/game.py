@@ -4,7 +4,9 @@ import random
 @dataclass
 class GameState:
     cells: list[int]
-    score: int = 0
+    score: int
+    history: list['GameState']
+    last_move: int # -1 none, 0 up, 1 down, 2 left, 3 right
 
     @staticmethod
     def new() -> 'GameState':
@@ -15,7 +17,7 @@ class GameState:
         cells = [0] * 16
         cells[i], cells[j] = 2, 2
 
-        return GameState(cells)
+        return GameState(cells, 0, [], -1)
     
     def up(self) -> 'GameState':
         rows = self.__get_rows()
@@ -25,7 +27,7 @@ class GameState:
             for i in range(3): rows[i], rows[i+1], self.score = self.__merge(rows[i], rows[i+1])
             if rows == initial_rows: break
 
-        return GameState(self.__add_cell_to_random_empty(self.__rows_to_cells(rows)), self.score)
+        return GameState(self.__add_cell_to_random_empty(self.__rows_to_cells(rows)), self.score, self.history + [self], 0)
 
     def down(self) -> 'GameState':
         rows = self.__get_rows()
@@ -35,7 +37,7 @@ class GameState:
             for i in range(3, 0, -1): rows[i], rows[i-1], self.score = self.__merge(rows[i], rows[i-1])
             if rows == initial_rows: break
 
-        return GameState(self.__add_cell_to_random_empty(self.__rows_to_cells(rows)), self.score)
+        return GameState(self.__add_cell_to_random_empty(self.__rows_to_cells(rows)), self.score, self.history + [self], 1)
     
     def left(self) -> 'GameState':
         columns = self.__get_columns()
@@ -45,7 +47,7 @@ class GameState:
             for i in range(3): columns[i], columns[i+1], self.score = self.__merge(columns[i], columns[i+1])
             if columns == initial_columns: break
 
-        return GameState(self.__add_cell_to_random_empty(self.__columns_to_cells(columns)), self.score)
+        return GameState(self.__add_cell_to_random_empty(self.__columns_to_cells(columns)), self.score, self.history + [self], 2)
 
     def right(self) -> 'GameState':
         columns = self.__get_columns()
@@ -55,7 +57,7 @@ class GameState:
             for i in range(3, 0, -1): columns[i], columns[i-1], self.score = self.__merge(columns[i], columns[i-1])
             if columns == initial_columns: break
 
-        return GameState(self.__add_cell_to_random_empty(self.__columns_to_cells(columns)), self.score)
+        return GameState(self.__add_cell_to_random_empty(self.__columns_to_cells(columns)), self.score, self.history + [self], 3)
     
     def is_game_over(self) -> bool: return all([self.up().cells == self.cells, self.down().cells == self.cells, self.left().cells == self.cells, self.right().cells == self.cells])
     
