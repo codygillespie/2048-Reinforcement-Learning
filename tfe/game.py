@@ -68,6 +68,24 @@ class GameState:
             print(*self.cells[i*4:i*4+4], sep='\t')
         print(f'Score: {self.score}')
 
+    # TODO: test this:
+    def to_csv(self, filename: str) -> None:
+        with open(filename, 'w') as f:
+            lines = []
+            for state in self.history:
+                lines.append(f'{state.last_move},{state.score},{",".join([str(cell) for cell in state.cells])}')
+            f.write('\n'.join(lines))
+
+    @staticmethod
+    def from_csv(self, filename: str) -> 'GameState':
+        with open(filename, 'r') as f:
+            lines = f.readlines()
+            history = []
+            for line in lines:
+                last_move, score, cells = line.split(',')
+                history.append(GameState([int(cell) for cell in cells.split(',')], int(score), [], int(last_move)))
+            return history[-1]
+
     def __get_rows(self) -> list[list[int]]: return [self.cells[i:i+4] for i in range(0, 16, 4)]
     def __get_columns(self) -> list[list[int]]: return [self.cells[i::4] for i in range(4)]
     def __rows_to_cells(self, rows: list[list[int]]) -> list[int]: return [cell for row in rows for cell in row]
